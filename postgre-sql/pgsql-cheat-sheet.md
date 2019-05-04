@@ -304,4 +304,136 @@ Groups itself can be `NULL` values.
 Als er enkel `NULL` values zijn is al de rest ook `NULL` met `COUNT` als uitzondering.
 
 
-## LES 3
+## Database Modifications
+1. `INSERT` tuples
+2. `DELETE` tuples
+3. `UPDATE` tuples
+
+### Insertion
+Hierbij wordt er een nieuwe rij toegevoegd aan de relatie `t`. Als er bepaalde attributen niet worden meegegeven worden hiervoor de `DEFAULT` values voor gebruikt. Als je gewoon alle waarde wilt invullen hoef je `(c1, c2, ..., cn)` zelfs niet mee te geven en kan je direct `VALUES` aanvullen. Je kan ook meerdere tuples inserten door een meerdere `(v1, v2, ..., vn)` tuples met een komma achteraan toe te voegen.
+```SQL
+INSERT INTO t(c1, c2, ..., cn) VALUES (v1, v2, ..., vn);
+```
+
+### Deletion
+Als je alle tuples wilt verwijderen uit tabel `t` waar een specifieke conditie geldt kan je volgende code uitvoeren.
+```SQL
+DELETE FROM t WHERE <condition>;
+```
+
+### Updates
+Als je een bepaalde tuple van tabel `t` wil updaten kan je dit als volgt doen. Je kan dus een attribut hernoemen door `attr='value'` in te vullen waarbij `attr` de naam is van het attribut en `value` de nieuwe waarde is voor dit attribut. 
+```SQL
+UPDATE t SET <reassignments> WHERE <condition>;
+```
+
+## Foreign-Key Constraints
+1. Waarnaar gerefereerd wordt moet een `PRIMARY KEY` of `UNIQUE` zijn. Anders zouden we naar meerdere items tegelijk kunnen wijzen wat dus niet mogelijk is.
+2. Het attribut (vaak een id) waarnaar gerefereerd moet altijd bestaan in de gerefereerde tabel.
+
+
+De makkelijkste manier om een foreign key te definiëren is in de tabel zelf bij het attribut dat je al foreign key wilt maken.
+```SQL
+-- PRIMARY KEY TO REFERENCE
+CREATE TABLE t (
+    id SERIAL PRIMARY KEY NOT NULL 
+);
+
+-- FOREIGN KEY (method a)
+CREATE TABLE u (
+    t_id INTEGER REFERENCES t(id)
+);
+-- FOREIGN KEY (method b)
+CREATE TABLE u (
+    t_id INTEGER,
+    FOREIGN KEY (t_id) REFERENCES t(id)
+);
+```
+
+Er zijn wel enkele problemen. Als je in tabel `t` een tuple zou willen updaten of deleten en er is een reference naar dit tuple in tabel `u` zal er een error optreden omdat postgresql niet weet wat er moet gebeuren. Je moet dus zelf keizen wat er moet gebreuren als je een tuple `UPDATE` of `DELETE`.
+
+1. De `DEFAULT` of `REJECT` policy zorgt ervoor dat eender welke modificatie niet wordt toegelaten. 
+2. De `CASCADE` policy zorgt ervoor dat dezelfde actie wordt uitgevoerd op de tuple met een reference. Als je deze dus `DELETE` in `t` zal dit ook gelden in `u`. Hetzelfde geld voor update.
+3. De `SET NULL` policy zet de reference op `NULL` bij een modificatie van `t`.
+
+```SQL
+CREATE TABLE u (
+    t_id INTEGER REFERENCES t(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+```
+
+MINDER BELANGRIJK: Als we twee tuples tegelijk in de database willen steken wordt tijdelijk constraint checking uitgeschakeld en pas later gekeken of de tuples wel voldoen aan de constraint. Hiervoor wordt intern `DEFERRABLE` en `NOT DEFERRABLE` gebruikt. ALs je `DEFERRABLE` moet dit gevolgd worden door ` INITIALLY DEFERRED` of `INITIALLY IMMEDIATE`. In het eerste geval wordt de constraint gechecked na elke transactie en in het tweede geval na elk statement.
+
+Je kan constraints updaten met `SET CONSTRAINT`. Hieronder nemen we een constraint met naam `c`. Waarbij `constraint` eenderwelk bovenstaand constraint kan zijn.
+```SQL
+SET CONSTRAINT c <constraint>;
+```
+
+## Constraints
+1. Op een enkel attribut
+2. Op meerdere attributten
+
+### NOT-NULL Constraint
+Je kan een `NOT NULL` constraint opleggen door dit achter het attribut te schrijven. Dit zorgt ervoor dat geen enkele waarde een `NULL` value mag hebben en er dus altijd een reference moet zijn.
+```SQL
+CREATE TABLE u (
+    t_id INTEGER REFERENCES t(id) NOT NULL
+);
+```
+
+### CHECK Constraint
+Je kan een `CHECK` constraint zien als een `WHERE` conditie voor een attribut die altijd moet gelden. Eerst geven we enkele voorbeelden van attribut-based constraints en daarna tuple-based constraints.
+```SQL
+-- syntax
+CREATE TABLE t (
+    c1 INTEGER CHECK <condition>
+);
+```
+
+```SQL
+-- example (attribute-based)
+CREATE TABLE users (
+    amount INTEGER CHECK (amount > 0),
+    genders CHAR(1) CHECK (genders IN ('f', 'm'))
+);
+```
+
+```SQL
+-- example (tuple-based)
+CREATE TABLE users (
+    ...,
+    CHECK (genders = 'f' OR name NOT LIKE 'Ms.%')
+);
+```
+
+### Modification of constraints
+Je kan een constraint een naam geven waardoor je het constraint later beter kan bewerken. Een primary key constraint zou er dan zo uit kunnen zien. Je kan hier ook een `CHECK` constraint benoemen. 
+```SQL
+CREATE TABLE t (
+    id SERIAL CONSTRAINT IdIsKey PRIMARY KEY
+);
+```
+
+### Altering constraints
+Je kan een constraint verwijderen met het `DROP` keyword of een constraint pas later toevoegen via het `ADD` keyword in combinatie met `ALTER TABLE`.
+```SQL
+ALTER TABLE t DROP CONSTRAINT IdIsKey;
+```
+```SQL
+ALTER TABLE t ADD CONSTRAINT IdIsKey PRIMARY KEY(id);
+```
+
+## Assertions (NIET VOOR PGSQL)
+Assertions kunnen een algemeen constraint leggen op eenderwelke conditie. Je kan een assertion aanmaken alsvolgt.
+```SQL
+CREATE ASSERTION <aname> CHECK <condition>;
+```
+
+Je kan een assertion dan ook terug verwijderen met het `DROP` keyword.
+```SQL
+DROP ASSERTION <aname>;
+```
+
+## LES 5 VIEWS en TRIGGERS ...
