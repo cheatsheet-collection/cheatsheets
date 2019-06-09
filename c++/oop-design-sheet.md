@@ -1,4 +1,4 @@
-# OOP Design Cheat SHeet
+# OOP Design Cheat Sheet
 Ingo Andelhofs   
 1ste bachelor informatica
 
@@ -159,10 +159,29 @@ class MyClass {
 ----------------------------------
 ```
 
-### Associaties
-Een gewone lijn tussen klasse A en klasse B wilt zeggen dat A bij B hoort. Je kan ook in B een reference naar een klasse A toevoegen. 
+### Associaties (lijn)
+Een gewone lijn tussen klasse A en klasse B wilt zeggen dat A bij B hoort. 
+Je kan ook in B een reference naar een klasse A toevoegen.  
+Multipliciteiten:
+- `1`: exact 1
+- `4`: exact 4
+- `0..1`: 0 of 1
+- `1..4`: 1 tot 4
+- `0..* of *`: 0 of meer
+- `4..*`: 4 of meer
 
-### Zie afbeeldingen ....
+### Aggregatie (lege diamant)
+Er wordt verwezen naar iets (geen eigenaar).
+
+### Compositie (volle diamant)
+Bevat iets (wel eigenaar).
+
+### Enums en static members (cirkel met + in )
+Het symbool aan de kant van de klasse. Niet de enum `<<enumeration>>`.
+
+### Inheritance (lege driehoek)
+Het symbool aan de kant van de Base class.
+
 
 
 ## C++ 
