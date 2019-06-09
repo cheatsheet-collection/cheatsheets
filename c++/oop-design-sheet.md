@@ -127,13 +127,47 @@ Wanneer mag A een B aanmaken/deleten.
 - A data bevat die nodig is om B aan te maken.
 
 
-## UML
-### Arrows
+## UML (Unified Modelling Language)
+- Attributen toevoegen
+- Beperkingen toevoegen
+- Relaties toevoegen
+- Klassen samenvoegen / splitsen / ...
+- Graphische weergave
+- Inzicht krijgen in bestaande code / nieuw ontwerp
+
+### Public, Private en Protected
+```cpp
+// Code
+class MyClass {
+    public:
+        void setValue(int newVal);
+    private:
+        int m_value;
+    protected:
+        int getValue() const;
+}
+
+// UML
+----------------------------------
+| (C) MyClass                    |
+----------------------------------
+| -m_value : int                 |
+----------------------------------
+| +setValue(newVal : int) : void |
+----------------------------------
+| #getValue() : int {readonly}   |
+----------------------------------
+```
+
+### Associaties
+Een gewone lijn tussen klasse A en klasse B wilt zeggen dat A bij B hoort. Je kan ook in B een reference naar een klasse A toevoegen. 
+
+### Zie afbeeldingen ....
 
 
 ## C++ 
 ### Early vs Late Binding
 
-### Virtual, Polymorphism, ...
+### Virtual/Override, Polymorphism, ...
 
-### ...
+### Virtual destructors
