@@ -88,8 +88,8 @@ piece->moved();                     // In Game->Board->movePiece
 // High Coupling (BAD)
 // De pion wordt verplaatst. Apart wordt de state op moved gezet. 
 // Hier moet Game dus met 2 dingen rekening houden. Terwijl board dit ook kan.
-getBoard()->movePiece()             // In Game
-getBoard()->getPiece()->moved()     // In Game
+getBoard()->movePiece();            // In Game
+getBoard()->getPiece()->moved();    // In Game
 ```
 
 ### Information Expert
