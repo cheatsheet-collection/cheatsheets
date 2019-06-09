@@ -437,3 +437,57 @@ DROP ASSERTION <aname>;
 ```
 
 ## LES 5 VIEWS en TRIGGERS ...
+
+## LES 8 Relational databases
+anomalies: problemen veroorzaakt door slechte database schema's.
+functional dependencies (FD): de veralgemening voor wat een key/ sleutel is voor de relatie.
+normalization: het omzetten van relaties in meerdere kleinere relaties door anomalies te verwijderen.
+multivalued dependencies: zorgen er voor herhaaling te elimineren.
+
+### Functional Dependencies
+decomposition: een relatie met meerdere attributen vervangen door meerdere relaties met 1 attribuut (beide hebben samen dezelfde algemene attributen)
+
+A1, A2, ..., An --> B1, B2, ..., Bm
+Is een functionele dependency als alle A's overeenkomen moeten ook alle B's overeen komen. Je kan dit dus zien als een functie die alle A's als input neemt en vervolgens alle B's teruggeeft. We kunnen dit enkel een functionele dependency noemen als dit voor alle gevallen van de relatie geldt en niet slechts enkele gevallen.
+
+### Keys of Relations
+{A1, A2, ..., An} is een key als: 
+- Dit wil zeggen dat alle overige attributen functioneel worden bepaald. Het is dus onmogelijk om twee verschillende uitkomsten te hebben voor de rechterkant.
+- Er is geen goede subset van {A1, A2, ..., An} die alle andere attributen bepaald. (de sleutel is minimaal)
+
+### Superkeys
+Een set van attributen dat een alle attributen van een key bevat is een super key. Elke (minimal)key is dus een superkey maar niet omgekeerd. 
+
+### Transitive rule
+A -> B, B -> C dan A -> C
+
+### Splitting/Combining rule
+A1, A2, ..., An --> B1, B2, ..., Bm 
+<=> 
+A1, A2, ..., An --> B1 
+A1, A2, ..., An --> B2 
+... 
+A1, A2, ..., An --> Bm 
+
+### Trivial FD's 
+Een FD is trival als de rechterkant een subset is van de linkerkant. Elke triviale FD geldt dan ook aangezien een subset overal geldt als de set overal geldt.
+
+### Closure
+De closure van {A1, A2, ..., An} is gelijk aan {A1, A2, ..., An}+.
+
+1. Gebruik de splitting rule en pas deze toe op alle FD's
+2. Maak een nieuwe set X die uiteindelijk de closure is.
+3. Zoek herhaald naar de FD's
+4. Waarbij de linkerkant al in de set zet en de rechterkant niet. Hierdoor kan je de rechterkant nu ook toevoegen.
+5. Herhaal tot er geen attributen meer kunnen toegevoegd worden.
+
+Als {A1, A2, ..., An}+ de closure is dan is {A1, A2, ..., An} een super key. 
+
+### Minimal Basis
+- Een verzameling van alle gelijkaardige FD's van een relatie.
+- Alle FD's hebben een enkel attribuut aan de rechterkant (single-ton).
+- Als een FD van de basis verwijderd wordt is het niet langer een basis.
+- Als een attribut van een linkerkant van een FD verwijderd wordt is het resultaat geen basis meer.
+- Er kunnen geen triviale FD's in de basis bestaan.
+
+
