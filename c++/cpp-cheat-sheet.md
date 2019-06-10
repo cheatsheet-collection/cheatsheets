@@ -492,9 +492,24 @@ Files worden geopend door de constructor of `.open()`. Je kan de file sluiten me
 Vervolgens kan je >> gebruiken om data naar een type uit te schrijven.
 
 ## Exception handling
+### Een simpel voorbeeld
+```cpp
+try {
+    // Code here
+    if (indexOutOfRange) {
+        throw std::out_of_range{"Index out of range"};
+    }
+}
+catch(const std::out_of_range &e) {
+    std::cerr << e.what();
+}
+catch(...) {
+    std::cerr << "Another error occured...";
+}
+```
 
 
-
+<!-- 
 
 ## C++ Standard Template Library (STL)
 ### std::string
@@ -503,4 +518,6 @@ Vervolgens kan je >> gebruiken om data naar een type uit te schrijven.
 ### std::stack
 ### std::map
 ### std::tuple
-### std::pair
+### std::pair 
+
+-->
