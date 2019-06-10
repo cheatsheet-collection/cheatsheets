@@ -331,9 +331,116 @@ class Shape {
 };
 ```
 
-
-
 ## Operator overloading
+In C++ heb je de mogelijkheid om bepaalde operator over te schrijven met zelfgekozen functionaliteit. Het is echter niet de bedoeling dat je onbegrijpbare operatoren gaat inbouwen die geen duidelijke betekenis hebben. 
+
+**In een klasse:** Je schrijft je overloaded operator binnen de klasse als een deel van de method deel is van de klasse. Zo heb je bijvoorbeeld twee operator+() met 1 extra parameter en de klasse zelf. Waarbij de klasse + param wordt uitgevoerd.  
+**Buiten een klasse:** Je schrijft overloaded operator buiten de klasse als je de volgorde van 'klasse + param' bv wilt omwisselen. Of gewoon de klasse zelf niet wordt gebruikt. Zoals bij ostream. Je gebruikt hier bv al geïmplementeerde operators als +=, ...   
+**Buiten een klasse (als friend):** Als je toch nog member variabelen moet kunnen bewerken buiten de klasse gebruik je het keyword friend om hier toegang tot te krijgen of zorg je voor de nodige getters.    
+
+```cpp
+// We nemen als voorbeeld een Point klasse die de meeste operators overload
+
+class Point {
+    private:
+        int m_first;
+        int m_second;
+    
+    public:
+        // Constructors
+        Point(int f = 0, int s = 0) : m_first{f}, m_second{s} {}
+        Point(const Point& p) : m_first{p.m_first}, m_second{p.m_second} {}
+        Point(Point&& p) : m_first{p.m_first}, m_second{p.m_second} {}
+
+        // Destructors
+        ~Point() = default;
+
+        // Assignment operatoren
+        Point& operator=(const Point& p) {
+            m_first = m_first;
+            m_second = p.m_second;
+            return *this;
+        }
+        Point& operator=(Point&& p) {
+            m_first = m_first;
+            m_second = p.m_second;
+            return *this;
+        }
+
+        // Copy swap assignment (move + copy)
+        swap(Point& p) {
+            std::swap(m_first, p.m_first);
+            std::swap(m_second, p.m_second);
+        }
+
+        Point& operator=(Point p) {
+            swap(p);
+            return *this;
+        }
+
+        // Operator overloading
+        Point operator-() {
+            return Point{-m_first, -m_second};
+        }
+
+        Point& operator++() {
+            ++m_first;
+            ++m_second;
+            return *this;
+        } 
+
+        Point operator++(int) {
+            Point temp{*this};
+            ++(*this);
+            return temp;
+        }
+
+        Point& operator+=(const Point& p) {
+            m_first += p.m_first;
+            m_second += p.m_second;
+            return *this;
+        }
+
+        Point& operator*=(const int i) {
+            m_first *= i;
+            m_second *= i;
+            return *this;
+        }
+
+        int operator[](const int index) {
+            return (index == 0) ? m_first : m_second;
+        }
+
+        // Friend operator overloading
+        friend bool operator==(const Point& p1, const Point& p2) {
+            return (p1.m_first = p2.m_first && p1.m_second == p2.m_second);
+        }
+
+        friend std::ostream& operator<<(std::ostream& stream, const Point& p) {
+            stream << '(' << p.m_first << ',' << p.m_second << ')';
+            return stream;
+        }
+
+        // Cast operator
+        operator std::pair<int, int>() {
+            return std::pair{m_first, m_second};
+        }
+}
+
+// Non-friend operators
+Point operator+(const Point& p1, const Point& p2) {
+    return Point{p1} += p2;
+}
+
+Point operator*(const Point& p, const int i) {
+    // Dit geldt enkel voor Point + int niet voor int + Point
+    return Point{p} *= i;
+}
+
+
+
+```
+
 
 ## Smart pointers
 
