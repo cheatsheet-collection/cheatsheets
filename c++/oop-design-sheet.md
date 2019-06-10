@@ -96,7 +96,6 @@ getBoard()->getPiece()->moved();    // In Game
 Wat?
 - Geef de verantwoordelijkheid aan de klasse die de nodige informatie al bevat.
 
-
 ```cpp
 // BAD
 Game::Print() {
@@ -126,6 +125,30 @@ Wanneer mag A een B aanmaken/deleten.
 - A maakt sterk gebruik van B.
 - A data bevat die nodig is om B aan te maken.
 
+```cpp
+class Bike {
+    private:
+        Wheel m_wheel1;
+        Wheel m_wheel2;
+        Frame m_frame;
+};
+
+// BAD
+int main() {
+    Wheel* wheel1{ new Wheel{wheelSize} };
+    Wheel* wheel2{ new Wheel{wheelSize} };
+    Frame* bikeFrame{  new Frame{frameSize} };
+
+    Bike myBike{ new Bike{wheel1, wheel2, bikeFrame} };
+}
+
+// GOOD
+int main() {
+    // Hier worden de wielen en het frame aangemaakt door het Bike object zelf waardoor je deze niet moet meegeven aan bike.
+    Bike myBike{ new Bike{wheelSize, frameSize} };
+}
+```
+
 
 ## UML (Unified Modelling Language)
 - Attributen toevoegen
@@ -154,7 +177,6 @@ class MyClass {
 | -m_value : int                 |
 ----------------------------------
 | +setValue(newVal : int) : void |
-----------------------------------
 | #getValue() : int {readonly}   |
 ----------------------------------
 ```
@@ -171,16 +193,16 @@ Multipliciteiten:
 - `4..*`: 4 of meer
 
 ### Aggregatie (lege diamant)
-Er wordt verwezen naar iets (geen eigenaar).
+Er wordt verwezen naar iets (geen eigenaar). Bij aggregatie kan het object A bestaan zonder B te bevatten. 
 
 ### Compositie (volle diamant)
-Bevat iets (wel eigenaar).
+Bevat iets (wel eigenaar). Hier moet het object A het object B bevatten om te kunnen bestaan. 
 
 ### Enums en static members (cirkel met + in )
 Het symbool aan de kant van de klasse. Niet de enum `<<enumeration>>`.
 
 ### Inheritance (lege driehoek)
-Het symbool aan de kant van de Base class.
+Het symbool aan de kant van de Base class. Dus van subclass naar baseclass.
 
 
 
