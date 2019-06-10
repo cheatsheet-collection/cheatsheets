@@ -203,12 +203,3 @@ Het symbool aan de kant van de klasse. Niet de enum `<<enumeration>>`.
 
 ### Inheritance (lege driehoek)
 Het symbool aan de kant van de Base class. Dus van subclass naar baseclass. Er is een 'A is een B' relatie.
-
-
-
-## C++ 
-### Early vs Late Binding
-
-### Virtual/Override, Polymorphism, ...
-
-### Virtual destructors
