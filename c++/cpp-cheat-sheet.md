@@ -282,21 +282,72 @@ class PHDStudent : public Student, public Employee {...};
 ```
 
 ## Polymorpism
+### Introductie
+In C++ en andere OOP talen heb je de mogelijkheid om een overriden method met eenzelfde signature op te roepen vanaf de Base- of Subclass. Dit is mogelijk door polymorphisme. Als je bijvoorbeeld een Person pointer of een reference hebt naar een Student/Employee. En je roept een method aan die zowel door Student als Employee wordt ondersteunt kan je afhankelijk van wat er in de Person pointer/reference zit andere functionaliteit uitvoeren. Je moet er wel voor zorgen dat deze worden overschreven met `virtual` en eventueel `override`. Wil je toch een method van bv. Person aanroepen in kan die via Person::method(). Je kan het gebruik van `virtual` ook laten stoppen door gebruikt te maken van het keyword `final`. Dit geeft aan dat dit de laatste versie is van een method waardoor je in een afgeleide klasse niet meer kan overriden.
+
+```cpp
+class Person {
+    public:
+        virtual void print() const override;
+};
+class Student : public Person {
+    public:
+        void print() const override;
+};
+
+// Beide klassen bevatten een functie print met zelfde signature. 
+// Deze wordt in student overschreven met virtual en override.
+// Als we nu een Person pointer aanmaken met een student in kunnen we via print de functie van Student aanspreken.
+
+Person* aPerson{ new Student{} };
+aPerson->print(); // De print functie van Student wordt hier aangeroepen
+```
+
+### Object slicing
+Als je niet met pointers of references werkt kan er object slicing optreden. Dit wil zeggen dat je bijvoorbeeld een `Student` aan een `Person` toekent waardoor alle `Student` data verloren gaat en er enkel nog `Person` data overblijft.
+
+```cpp
+Student stud{};
+Person pers{stud}; // slicing
+
+aFunction(stud); // slicing if signature -> aFunction(Person p) {...}
+```
+
+### Early/Late binding
+**Early binding:** Als een method van een Subclass en Baseclass dezelfde signature hebben en deze wordt in de Baseclass niet als `virtual` gemarkeert dan zal er altijd early binding optreden. Dit wilt zeggen dat als je een `Baseclass*` aanmaakt en er een `Subclass*` in steekt dat als je dan deze method aanroept die niet `virtual` is je toch de method van de Baseclass gaat aanroepen ookal wil je dit vaak niet. Om dit op te lossen kan je `virtual` toevoegen. Ook kan je deze Person pointer casten naar een Student pointer via `dynamic_cast<Student*>()`.
+
+**Late binding:** Als een method van een Subclass en Baseclass dezelfde signature hebben en deze wordt in de Baseclass wel als `virtual` gemarkeert dan zal er altijd late binding optreden. Dit wilt zeggen dat als je een `Baseclass*` aanmaakt en er een `Subclass*` in steekt dat als je dan deze method aanroept die `virtual` is je ook de method van Subclass zal aanroepen ookal zit deze in een `Baseclass*`. Bij late binding wordt pas tijdens het runnen beslist welke functie er wordt opgeroepen. Dit gebeurt aan de hant van een Vtable of Virtual Table. 
+
+### Virtual destructor
+**Algemene regel:** Ofwel maak je de constructor public en virtual, ofwel maak je deze protected en niet-virtual.
+
+### Abstracte klassen
+Als je wilt dat een klasse enkel kan gebruikt worden om van te inheriten kan je een klasse of haar methodes pure virtual maken. Hierdoor moeten alle afgeleide klassen deze method implementeren. Bijvoorbeeld een Abstracte klasse Shape. Die kan gebruikt worden voor een Rect, Circle, ... aan te maken.
+
+```cpp
+class Shape {
+    public:
+        virtual void draw() const = 0; // Pure virtual
+};
+```
+
+
 
 ## Operator overloading
 
-## ...
+## Smart pointers
+
+## File IO
+
+## Exception handeling
+
 
 
 ## C++ Standard Template Library (STL)
 ### std::string
-...
-
 ### std::vector
-...
-
+### std::array
+### std::stack
 ### std::map
-...
-
 ### std::tuple
-...
+### std::pair
