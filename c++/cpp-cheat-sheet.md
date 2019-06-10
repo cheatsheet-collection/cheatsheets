@@ -436,15 +436,42 @@ Point operator*(const Point& p, const int i) {
     // Dit geldt enkel voor Point + int niet voor int + Point
     return Point{p} *= i;
 }
-
-
-
 ```
 
-
 ## Smart pointers
+In C++ is er een nieuwe manier om pointers op te slaan waardoor je geen rekening meer moet houden met het verwijderen van je pointer. Dit kan met behulp van de smart pointer klassen van C++. 
+
+### Unique pointers
+Een unique pointer kan maar één keer bestaan en niet gekopiëert worden maar wel verplaatst met bv std::move(). Ook als je een unique pointer aanmaakt in een klasse als member variabele worden automatisch de copy/copy-assignment operatoren verwijderd. Je moet hier dus shared pointers gebruiken of zelf de copy functionaliteit voorzien.
+
+```cpp
+// Een pointer naar een int aanmaken
+std::unique_ptr<int> int1{ new int{10} };
+
+// Alternatief met std::make_unique
+std::unique_ptr<int> int2{ std::make_unique<int>{10} };
+
+// Int arrays of 5 ints
+std::unique_ptr<int []> ints{ std::make_unique<int []>{5} };
+
+// Get raw pointer (returns pointer)
+int1.get();
+
+// Move the pointer
+auto int3{ std::move(int2) };
+
+// De pointer terug geven aan de developer (returns pointer)
+int1.release();
+
+// De pointer opruimen
+int1.reset();
+```
+
+### Shared pointers
+Als je toch wilt kopiëren moet je gebruik maken van de std::shared_ptr en std::make_shared klassen. Er wordt via `reference counting` bijgehouden hoeveel pointers er nog zijn en deze worden opgeruimt als er dus 0 instaties over zijn. De werking is hetzelfde als de unique_ptr met als extra functie dat je `p.use_count()` kunt aanroepen voor de reference count. 
 
 ## File IO
+
 
 ## Exception handeling
 
