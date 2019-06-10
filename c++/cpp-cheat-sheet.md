@@ -1,4 +1,4 @@
-# C++ Cheat SHeet
+# C++ Cheat Sheet
 Ingo Andelhofs   
 1ste bachelor informatica
 
@@ -159,7 +159,7 @@ MyClass(const MyClass& mc) {
 ```
 
 ### Move Constructor
-Een move constructor is een constructor die de inhoud van een klasse verplaast naar een nieuw object en dus alle members overzet. Het is belangrijk dat er een mogelijkheid is om te move'n. Dit kan namelijk veel efficiënter zijn dan slechts het object te kopiëren (geen allocatie, geen kopie). Je kan ook een move forceren via `std::move`. Een voorbeeld waar move wordt gebruikt is bij het terugkrijgeven van een temp value van een fucntie.
+Een move constructor is een constructor die de inhoud van een klasse verplaast naar een nieuw object en dus alle members overzet. Het is belangrijk dat er een mogelijkheid is om te move'n. Dit kan namelijk veel efficiënter zijn dan slechts het object te kopiëren (geen allocatie, geen kopie). Je kan ook een move forceren via `std::move`. Een voorbeeld waar move wordt gebruikt is bij het teruggeven van een temp value van een functie.
 ```cpp
 MyClass(MyClass&& mc) {
     // Moving here....
@@ -185,7 +185,7 @@ In C++ kan je ook types op de heap alloceren zoals in c. Hiervoor gebruik je ech
 C++ voorziet een heel deel containers en algoritme in de STL (STandard Library). Waaronder `vector`, `array`, `list`, `set`, `map`, `stack` en `queue`. Ook wordt er een basic `string` voorzien. Enkele functies hiervan bespreken we later.
 
 ### References
-Naast pointers heb je in C++ ook references. Dit is echter een alias voor het originele element. Als je aan een functie/method een reference parameter mee geeft dan wordt er geen kopie gemaakt maar een alias meeegegeven naar dat element. Je kan wel geen alleenstaande (constante) elementen meegeven aan deze functie/method aangezien hier geen reference van gemaakt kan worden. Je kan parameters voor de rest meegeven als gewone parameters. In C++ verkies je vaal Const references.
+Naast pointers heb je in C++ ook references. Dit is echter een alias voor het originele element. Als je aan een functie/method een reference parameter mee geeft dan wordt er geen kopie gemaakt maar een alias meeegegeven naar dat element. Je kan wel geen alleenstaande (constante) elementen meegeven aan deze functie/method aangezien hier geen reference van gemaakt kan worden. Je kan parameters voor de rest meegeven als gewone parameters. In C++ verkies je vaak Const references.
 ```cpp
 // Een swap voorbeeld
 void swapRef(int &r1, int &r2) {
@@ -233,12 +233,53 @@ MyClass<char> mc{'c'};
 - forward declaration
 
 
-
-
-
 ## Inheritance
+### Introductie
+Als je een subklasse maakt waar een 'is een' relatie geldt. Bijvoorbeeld een student is een persoon. Dan kan je hier inheritance gebruiken. De `Student` klasse kan nu aan alle `public` en `protected` members van `Person`. De private members van `Person` kan je niet accessen. De `Student` class erft zeg maar over van `Person`.
+```cpp
+class Person {
+    // ...
+};
+
+class Student : public Person {
+    // Een Student is nu ook een Person
+    // Alles van person + ...
+};
+```
+
+### Constructors en destructors
+Bij het aanmaken van een `Student` klasse wordt eerst de constructor van `Person` aan geroepen en dan pas die van `Student`. Algemeen wordt dus eerst de baseclass constructor aangeroepen en dan de subclass constructor. Als we het over destructors hebben wordt in het voorbeeld eerst die van `Student` aangeroepen die vervolgens de destructor van `Person` aanroept. In de initializer list van `Student` kan je nu ook een `Person` constructor aanroepen.   
+Als we het hebben over een Vector van `Person*` en we hebben de destructor van `Person` niet virtual gemaakt zal enkel de `Person` destructor worden aangeroepen. Zie virtual destructors.
+
+### Copy en Move
+Als je afgeleide/subklasse een move/copy constructor heeft wordt default de 'default constructor' van de base/superklasse aangeroepen. Als je toch wilt dat de copy/move wordt aangeroepen van je base class ipv de default constructor moet je de copy/move via de initializatie lijst van de subclass meegeven.
+
+```cpp
+class Base {};
+
+class Sub : public Base {
+    public:
+        Sub::Sub(const Sub& s) : Base{s};
+        Sub::Sub(Sub&& s) : Base{std::move(s)};
+};
+```
+
+### Toegankelijkheid
+Wanneer je afleid van een Base class.  
+- **public:** public->public, protected->protected
+- **protected:** public->protected, protected->protected
+- **private (default):** public->private, protected->private
 
 
+### Multiple inheritance
+In C++ kan je van meerdere klassen inheriten. Dit kan echter soms wel voor probelemen zorgen wanneer functienamen dezelfde naam hebben. Dit kan je oplossen door specifiek te vermelden van welke klasse je dit wilt aan roepen door gebruik van `MyClass::method()`. Ook kan je het diamant probleem tegen komen wat hieronder wordt aangetoont. We gebruiken hier `virtual public` om aan te tonen dat we slechts van 1 `Person` moeten inheriten en niet twee keer van `Person` wat voor problemen kan zorgen.
+
+```cpp
+class Person {...};
+class Student : virtual public Person {...};
+class Employee : virtual public Person {...};
+class PHDStudent : public Student, public Employee {...};
+```
 
 ## Polymorpism
 

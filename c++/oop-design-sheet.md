@@ -196,13 +196,13 @@ Multipliciteiten:
 Er wordt verwezen naar iets (geen eigenaar). Bij aggregatie kan het object A bestaan zonder B te bevatten. 
 
 ### Compositie (volle diamant)
-Bevat iets (wel eigenaar). Hier moet het object A het object B bevatten om te kunnen bestaan. 
+Bevat iets (wel eigenaar). Hier moet het object A het object B bevatten om te kunnen bestaan. Er is een 'A heef een B / A bevat een B' relatie.
 
 ### Enums en static members (cirkel met + in )
 Het symbool aan de kant van de klasse. Niet de enum `<<enumeration>>`.
 
 ### Inheritance (lege driehoek)
-Het symbool aan de kant van de Base class. Dus van subclass naar baseclass.
+Het symbool aan de kant van de Base class. Dus van subclass naar baseclass. Er is een 'A is een B' relatie.
 
 
 
