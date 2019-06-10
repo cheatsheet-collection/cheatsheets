@@ -470,10 +470,29 @@ int1.reset();
 ### Shared pointers
 Als je toch wilt kopiëren moet je gebruik maken van de std::shared_ptr en std::make_shared klassen. Er wordt via `reference counting` bijgehouden hoeveel pointers er nog zijn en deze worden opgeruimt als er dus 0 instaties over zijn. De werking is hetzelfde als de unique_ptr met als extra functie dat je `p.use_count()` kunt aanroepen voor de reference count. 
 
-## File IO
+## Streams en File IO
+Includes: &lt;iostream&gt;, &lt;ios&gt;, &lt;streambuf&gt;, ... 
 
+### Manipulators (ios)
+Je kan eender welke van onderstaande functionaliteit toevoegen aan de stream via <<. Hierna wordt hun functionaliteit op achterliggende types toegepast.
+- std::setprecision(int): Voeg cijfers na de komma toe.
+- std::setfill(char): Vul string op met 'char' totdat std::setw(). 
+- std::setw(int): Geeft het totaal aantal chars weer.
+- std::hex, std::oct, std::dec: Zet om naar hex, oct, dec.
 
-## Exception handeling
+### Files
+Files worden geopend door de constructor of `.open()`. Je kan de file sluiten met `.close()` of dit gebeurt zelf. Vervolgens kan je via `<<` en `>>` schrijven en lezen naar een file of je kan dit via `getline()` doen. Vaak word er als vlogt een if rond gezet `if (std::ofstream out{"file.txt"}) {...`. Via `read()` en `write()` kan je ook naar .dat files schrijven hiervoor moet je wel `std::ios::binary` gebruiken als tweede parameter.
+
+- std::ofstream (schrijven naar een file)
+- std::ifstream (lezen van een file)
+
+### String streams
+- std::istringstream sstream{aString};
+
+Vervolgens kan je >> gebruiken om data naar een type uit te schrijven.
+
+## Exception handling
+
 
 
 
