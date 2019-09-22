@@ -2,7 +2,15 @@
 Ingo Andelhofs  
 2de bachelor informatica
 
-## Introductie
+## Table of Contents
+1. [Introduction](##Introduction)
+1. [About Java](##About-Java)
+1. [Operators](##Operators)
+1. [Types](##Types)
+1. [Control structures](##Control-structures)
+1. [Classes](##Classes)
+
+## Introduction
 Een simpel `Hello world` voorbeeld.
 ```java 
 public class Main {
@@ -203,4 +211,5 @@ while(condition0) {
 
 
 ## Classes
-
+### Extra
+Je kan zelf `equals`, `toString()` overschijven voor het checken op gelijkheid en printen van de klasse.
