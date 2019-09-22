@@ -116,7 +116,7 @@ keyword (condition) {
 }
 ```
 
-### `If ... else if ... else` statements
+## `If ... else if ... else` statements
 ```java
 if (condition0)         
     ...;
@@ -126,7 +126,7 @@ else
     ...;
 ```
 
-### `Switch ... case` statements
+## `Switch ... case` statements
 ```java
 switch (value) {
     case 0:
@@ -144,7 +144,7 @@ switch (value) {
 }
 ```
 
-### `For` loops
+## `For` loops
 Een `normal` type for lus.
 ```java
 for(init; condition; increment)
@@ -157,20 +157,20 @@ for(Type element : iterable)
     ...;
 ```
 
-### `Do ... while` loops
+## `Do ... while` loops
 ```java
 do
     ...;
 while(condition);
 ```
 
-### `While` loops
+## `While` loops
 ```java
 while(condition) 
     ...;
 ```
 
-### `Break` and `continue`
+## `Break` and `continue`
 Een simpele break
 ```java
 while(condition) {
