@@ -211,5 +211,192 @@ while(condition0) {
 
 
 ## Classes
-### Extra
-Je kan zelf `equals`, `toString()` overschijven voor het checken op gelijkheid en printen van de klasse.
+### Een simpele klasse
+```java
+public class ClassName {
+    // Member variables
+    private String aMember;
+    
+    // Constructors
+    public ClassName() {}
+
+    // Methods
+    public void aMethod() {
+        this.aMember = "A new value";
+    }
+}
+```
+
+### Method Overloading
+```java
+public class MethodOverloadingExample {
+    public void aMethod(int intValue) { ... }
+    public void aMethod(String stringValue) { ... }
+}
+```
+
+### Constructors
+```java
+public class MyClass {
+    public MyClass() { /* init object */ }
+    public void aMethod() { ... }
+
+    public static void main(String[] args) {
+        MyClass aMyClassInstance = new MyClass();
+        aMyClassInstance.aMethod();
+    }
+}
+```
+
+```java```
+
+### Interfaces
+Een enkel interface implementeren.
+```java
+interface MyClassInterface {
+    public void aMethod();
+    public void anotherMethod();
+}
+
+public class MyClass implements MyClassInterface {
+    // Methods aMethod, anotherMethod must be implemented here.
+    public void aMethod() { ... }
+    public void anotherMethod() { ... }
+}
+```
+
+Meerdere interfaces.
+```java
+public class MyClass implements MyClassInterface, AnotherInterface {
+    // Methods aMethod, anotherMethod must be implemented here.
+    public void aMethod() { ... }
+    public void anotherMethod() { ... }
+    public void methodInAnotherInterface() { ... }
+}
+```
+
+### Inheritance
+```java
+class Base {
+    ...
+}
+
+class Derived extends Base {
+    public Derived(int val) {
+        super(val);
+    }
+    ...
+}
+```
+
+### Overriding
+Je kan zelf `equals()`, `toString()` overschijven voor het checken op gelijkheid en printen van de klasse.  
+...
+
+
+
+## Exceptions
+Een nieuwe exception aanmaken.
+```java
+class MyException extends Exception {
+    public MyException() {}
+    public MyException(String message) {
+        super(message);
+    }
+    ...
+};
+```
+
+Een simpele `try` ... `catch` blok.
+```java
+try {
+    ...
+    throw new Exception("Exception message here...");
+}
+catch (Exception e) {
+    System.out.println(e.getMessage());
+}
+```
+
+Vang all exceptions op.
+```java
+try {
+    ...
+    throw new DerivedException("Exception message here...");
+}
+catch (Exception e) {
+    // DerivedException is cauth
+    System.out.println(e.getMessage());
+}
+```
+
+Een exception in een method gooien.
+```java
+public void faultyMethod() throws Exception {
+    ...
+}
+```
+
+Een exception doorlaten met behulp van een `RuntimeException`. (unchecked exceptions)
+```java
+try {
+    ...
+    throw new Exception("Exception message here...");
+}
+catch (Exception e) {
+    // Alle voorgaande excpeties worden vergeten en Java stopt niet bij een runtime exception.
+    throw new RuntimeException();
+}
+```
+
+Code uitvoeren na `try` ... `catch` code. (onafhankelijk van Exceptions).
+```java
+try { ... }
+catch (Exception e) { ... }
+finally {
+    // Code wordt altijd uitgevoert.
+}
+```
+
+
+## Files
+Een file aanmaken.
+```java
+File newFile = new File("path.ext");
+if (newFile.createNewFile())
+    /* New file created. */
+else 
+    /* File already exists. */
+```
+
+Naar een file schrijven.
+```java
+...
+FileWriter writer = new FileWriter(newFile);
+writer.write("Text written to file.");
+writer.close();
+```
+
+Naar een file schrijven. (append)
+```java
+...
+boolean appendMode = true;
+FileWriter appender = new FileWriter(newFile, appendMode);
+appender.append("Text appended to file.");
+appender.close();
+```
+
+Van een file lezen.
+```java
+...
+FileReader freader = new FileReader(newFile);
+BufferedReader reader = new BufferedReader(freader);
+
+while((String line = reader.readLine()) != null) {
+    System.out.println(line);
+}
+```
+
+
+## Java Code
+```java```
