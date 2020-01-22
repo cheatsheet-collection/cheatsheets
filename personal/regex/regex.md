@@ -6,6 +6,10 @@ Last updated 2019
 1. [Symbolen]()
 
 ## Introduction
+| Delim | Action | 
+| - | - | 
+| \w | Words |
+| \d | Digits |
 
 ## Basics
 
